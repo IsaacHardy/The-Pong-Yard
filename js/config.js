@@ -7,13 +7,24 @@ let config = function($stateProvider, $urlRouterProvider) {
       abstract: true,
       templateUrl: 'templates/layout.tpl.html'
     })
-    .state('root.list', {
+    .state('root.home', {
       url: '/',
-      templateUrl: 'templates/list.tpl.html'
+      templateUrl: 'templates/home.tpl.html'
     })
-    .state('root.add', {
-      url: '/add',
+    .state('root.profile', {
+      url: '/profile/:objectId',
+      controller: 'ProfileController',
+      templateUrl: 'templates/profile.tpl.html'
+    })
+    .state('root.signup', {
+      url: '/signup',
+      controller: 'AddController',
       templateUrl: 'templates/add.tpl.html'
+    })
+    .state('root.users', {
+      url: '/users',
+      controller: 'UsersController',
+      templateUrl: 'templates/user.tpl.html'
     });
 
 };

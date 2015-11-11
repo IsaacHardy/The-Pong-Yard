@@ -11,12 +11,21 @@ var config = function config($stateProvider, $urlRouterProvider) {
   $stateProvider.state('root', {
     abstract: true,
     templateUrl: 'templates/layout.tpl.html'
-  }).state('root.list', {
+  }).state('root.home', {
     url: '/',
-    templateUrl: 'templates/list.tpl.html'
-  }).state('root.add', {
-    url: '/add',
+    templateUrl: 'templates/home.tpl.html'
+  }).state('root.profile', {
+    url: '/profile/:objectId',
+    controller: 'ProfileController',
+    templateUrl: 'templates/profile.tpl.html'
+  }).state('root.signup', {
+    url: '/signup',
+    controller: 'AddController',
     templateUrl: 'templates/add.tpl.html'
+  }).state('root.users', {
+    url: '/users',
+    controller: 'UsersController',
+    templateUrl: 'templates/user.tpl.html'
   });
 };
 
@@ -26,6 +35,78 @@ exports['default'] = config;
 module.exports = exports['default'];
 
 },{}],2:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var AddController = function AddController($scope, $http, PARSE) {
+
+  var url = PARSE.URL + 'classes/player';
+
+  var Player = function Player(obj) {
+    this.first = obj.first;
+    this.last = obj.last;
+    this.email = obj.email;
+    this.username = obj.username;
+    this.password = obj.password;
+  };
+
+  $scope.addPlayer = function (obj) {
+    var p = new Player(obj);
+
+    $http.post(url, p, PARSE.CONFIG).then(function (res) {
+      $scope.player = {};
+    });
+  };
+};
+
+AddController.$inject = ['$scope', '$http', 'PARSE'];
+
+exports['default'] = AddController;
+module.exports = exports['default'];
+
+},{}],3:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var ProfileController = function ProfileController($scope, $stateParams, $http, PARSE) {
+
+  var url = PARSE.URL + 'classes/player/' + $stateParams.objectId;
+  $http.get(url, PARSE.CONFIG).then(function (res) {
+    $scope.playerSpec = res.data;
+    console.log(res);
+  });
+};
+
+ProfileController.$inject = ['$scope', '$stateParams', '$http', 'PARSE'];
+
+exports['default'] = ProfileController;
+module.exports = exports['default'];
+
+},{}],4:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var ProfileController = function ProfileController($scope, $http, PARSE) {
+
+  var url = PARSE.URL + 'classes/player/';
+
+  $http.get(url, PARSE.CONFIG).then(function (res) {
+    $scope.users = res.data.results;
+  });
+};
+
+ProfileController.$inject = ['$scope', '$http', 'PARSE'];
+
+exports['default'] = ProfileController;
+module.exports = exports['default'];
+
+},{}],5:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -40,6 +121,18 @@ var _config = require('./config');
 
 var _config2 = _interopRequireDefault(_config);
 
+var _controllersAddController = require('./controllers/add.controller');
+
+var _controllersAddController2 = _interopRequireDefault(_controllersAddController);
+
+var _controllersProfileController = require('./controllers/profile.controller');
+
+var _controllersProfileController2 = _interopRequireDefault(_controllersProfileController);
+
+var _controllersUsersController = require('./controllers/users.controller');
+
+var _controllersUsersController2 = _interopRequireDefault(_controllersUsersController);
+
 _angular2['default'].module('app', ['ui.router']).constant('PARSE', {
   URL: 'https://api.parse.com/1/',
   CONFIG: {
@@ -48,9 +141,9 @@ _angular2['default'].module('app', ['ui.router']).constant('PARSE', {
       'X-Parse-REST-API-Key': 'GcHk8Ed0qlmhgTTqwsxiJVkOrqLotzvjhLVCHmOs'
     }
   }
-}).config(_config2['default']);
+}).config(_config2['default']).controller('AddController', _controllersAddController2['default']).controller('ProfileController', _controllersProfileController2['default']).controller('UsersController', _controllersUsersController2['default']);
 
-},{"./config":1,"angular":5,"angular-ui-router":3}],3:[function(require,module,exports){
+},{"./config":1,"./controllers/add.controller":2,"./controllers/profile.controller":3,"./controllers/users.controller":4,"angular":8,"angular-ui-router":6}],6:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.15
@@ -4421,7 +4514,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],4:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.7
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -33326,11 +33419,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],5:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":4}]},{},[2])
+},{"./angular":7}]},{},[5])
 
 
 //# sourceMappingURL=main.js.map

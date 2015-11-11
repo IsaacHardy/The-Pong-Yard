@@ -1,1 +1,10 @@
-<h3>Add</h3>
+<h3>Sign Up</h3>
+
+<form ng-submit="addPlayer(player)">
+  <input placeholder="Your First Name" ng-model="player.first">
+  <input placeholder="Your Last Name" ng-model="player.last">
+  <input type="email" placeholder="Your Email" ng-model="player.email">
+  <input placeholder="Desired Username" ng-model="player.username">
+  <input placeholder="Password" ng-model="player.password">
+  <button>Sign Up</button>
+</form>
