@@ -17,7 +17,7 @@ let config = function($stateProvider, $urlRouterProvider) {
       templateUrl: 'templates/login.tpl.html'
     })
     .state('root.profile', {
-      url: '/profile/:objectId',
+      url: '/profile',
       controller: 'ProfileController',
       templateUrl: 'templates/profile.tpl.html'
     })
@@ -30,6 +30,11 @@ let config = function($stateProvider, $urlRouterProvider) {
       url: '/users',
       controller: 'UsersController',
       templateUrl: 'templates/user.tpl.html'
+    })
+    .state('root.leaderboard', {
+      url: '/leaderboard',
+      controller: '',
+      templateUrl: 'templates/leaderboard.tpl.html'
     });
 
 };

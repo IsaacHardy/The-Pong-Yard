@@ -34,6 +34,11 @@ let PlayerService = function($http, PARSE) {
     return $http.post(url, p, PARSE.CONFIG);    
   };
 
+  this.sendLogin = function (userObj) {
+    $http.post(url + '/login', userObj, PARSE.CONFIG);
+  };
+
+
 };
 
 PlayerService.$inject = ['$http', 'PARSE'];
