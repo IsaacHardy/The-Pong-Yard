@@ -6,6 +6,8 @@ import config from './config';
 import AddController from './controllers/add.controller';
 import ProfileController from './controllers/profile.controller';
 import UsersController from './controllers/users.controller';
+import LoginController from './controllers/login.controller';
+import PlayerService  from './services/player.service';
 
 angular
   .module('app', ['ui.router'])
@@ -22,4 +24,6 @@ angular
   .controller('AddController', AddController)
   .controller('ProfileController', ProfileController)
   .controller('UsersController', UsersController)
+  .controller('LoginController', LoginController)
+  .service('PlayerService', PlayerService)
 ;

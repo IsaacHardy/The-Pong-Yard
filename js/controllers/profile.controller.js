@@ -1,15 +1,11 @@
-let ProfileController = function($scope, $stateParams, $http, PARSE) {
+let ProfileController = function($scope, $stateParams, $http, PARSE, PlayerService) {
 
-  let url = PARSE.URL + 'classes/player/' + $stateParams.objectId;
-  $http.get(url, PARSE.CONFIG).then((res) => {
+  PlayerService.listUser($stateParams.objectId).then ((res) => {
     $scope.playerSpec = res.data;
-    console.log(res);
-  });
-
-  
+  }); 
 
 };
 
-ProfileController.$inject = ['$scope', '$stateParams', '$http', 'PARSE'];
+ProfileController.$inject = ['$scope', '$stateParams', '$http', 'PARSE', 'PlayerService'];
 
 export default ProfileController;

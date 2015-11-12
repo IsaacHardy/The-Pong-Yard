@@ -14,6 +14,10 @@ var config = function config($stateProvider, $urlRouterProvider) {
   }).state('root.home', {
     url: '/',
     templateUrl: 'templates/home.tpl.html'
+  }).state('root.login', {
+    url: '/login',
+    controller: 'LoginController',
+    templateUrl: 'templates/login.tpl.html'
   }).state('root.profile', {
     url: '/profile/:objectId',
     controller: 'ProfileController',
@@ -40,28 +44,16 @@ module.exports = exports['default'];
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var AddController = function AddController($scope, $http, PARSE) {
-
-  var url = PARSE.URL + 'classes/player';
-
-  var Player = function Player(obj) {
-    this.first = obj.first;
-    this.last = obj.last;
-    this.email = obj.email;
-    this.username = obj.username;
-    this.password = obj.password;
-  };
+var AddController = function AddController($scope, $http, PARSE, PlayerService) {
 
   $scope.addPlayer = function (obj) {
-    var p = new Player(obj);
-
-    $http.post(url, p, PARSE.CONFIG).then(function (res) {
+    PlayerService.addPlayer(obj).then(function (res) {
       $scope.player = {};
     });
   };
 };
 
-AddController.$inject = ['$scope', '$http', 'PARSE'];
+AddController.$inject = ['$scope', '$http', 'PARSE', 'PlayerService'];
 
 exports['default'] = AddController;
 module.exports = exports['default'];
@@ -72,18 +64,44 @@ module.exports = exports['default'];
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var ProfileController = function ProfileController($scope, $stateParams, $http, PARSE) {
+var LoginController = function LoginController($scope, $http, PARSE) {
+  var _this = this;
 
-  var url = PARSE.URL + 'classes/player/' + $stateParams.objectId;
-  $http.get(url, PARSE.CONFIG).then(function (res) {
-    $scope.playerSpec = res.data;
-    console.log(res);
-  });
+  var url = PARSE.URL + 'login';
+
+  var User = function User(obj) {
+    this.username = obj.username;
+    this.password = obj.password;
+  };
+
+  $scope.loginUser = function (obj) {
+
+    $http.get(url, PARSE.CONFIG).then(function (res) {
+      console.log('right user info', res);
+    }, function (err) {
+      console.log('wrong user info', err);
+    });
+
+    $http({
+      url: url,
+      headers: PARSE.CONFIG.headers,
+      method: 'GET',
+      params: {
+        username: _this.username,
+        password: _this.password
+      },
+      cache: true
+    }).then(function (res) {
+      console.log('right user info', res);
+    }, function (err) {
+      console.log('wrong user info', err);
+    });
+  };
 };
 
-ProfileController.$inject = ['$scope', '$stateParams', '$http', 'PARSE'];
+LoginController.$inject = ['$scope', '$http', 'PARSE'];
 
-exports['default'] = ProfileController;
+exports['default'] = LoginController;
 module.exports = exports['default'];
 
 },{}],4:[function(require,module,exports){
@@ -92,21 +110,43 @@ module.exports = exports['default'];
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var ProfileController = function ProfileController($scope, $http, PARSE) {
+var ProfileController = function ProfileController($scope, $stateParams, $http, PARSE, PlayerService) {
 
-  var url = PARSE.URL + 'classes/player/';
-
-  $http.get(url, PARSE.CONFIG).then(function (res) {
-    $scope.users = res.data.results;
+  PlayerService.listUser($stateParams.objectId).then(function (res) {
+    $scope.playerSpec = res.data;
   });
 };
 
-ProfileController.$inject = ['$scope', '$http', 'PARSE'];
+ProfileController.$inject = ['$scope', '$stateParams', '$http', 'PARSE', 'PlayerService'];
 
 exports['default'] = ProfileController;
 module.exports = exports['default'];
 
 },{}],5:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var ProfileController = function ProfileController($scope, $http, PARSE, PlayerService) {
+
+  var url = PARSE.URL + 'classes/player/';
+
+  // $http.get(url, PARSE.CONFIG).then((res) => {
+  //   $scope.users = res.data.results;
+  // }); 
+
+  PlayerService.listPlayers().then(function (res) {
+    $scope.users = res.data.results;
+  });
+};
+
+ProfileController.$inject = ['$scope', '$http', 'PARSE', 'PlayerService'];
+
+exports['default'] = ProfileController;
+module.exports = exports['default'];
+
+},{}],6:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -133,6 +173,14 @@ var _controllersUsersController = require('./controllers/users.controller');
 
 var _controllersUsersController2 = _interopRequireDefault(_controllersUsersController);
 
+var _controllersLoginController = require('./controllers/login.controller');
+
+var _controllersLoginController2 = _interopRequireDefault(_controllersLoginController);
+
+var _servicesPlayerService = require('./services/player.service');
+
+var _servicesPlayerService2 = _interopRequireDefault(_servicesPlayerService);
+
 _angular2['default'].module('app', ['ui.router']).constant('PARSE', {
   URL: 'https://api.parse.com/1/',
   CONFIG: {
@@ -141,9 +189,56 @@ _angular2['default'].module('app', ['ui.router']).constant('PARSE', {
       'X-Parse-REST-API-Key': 'GcHk8Ed0qlmhgTTqwsxiJVkOrqLotzvjhLVCHmOs'
     }
   }
-}).config(_config2['default']).controller('AddController', _controllersAddController2['default']).controller('ProfileController', _controllersProfileController2['default']).controller('UsersController', _controllersUsersController2['default']);
+}).config(_config2['default']).controller('AddController', _controllersAddController2['default']).controller('ProfileController', _controllersProfileController2['default']).controller('UsersController', _controllersUsersController2['default']).controller('LoginController', _controllersLoginController2['default']).service('PlayerService', _servicesPlayerService2['default']);
 
-},{"./config":1,"./controllers/add.controller":2,"./controllers/profile.controller":3,"./controllers/users.controller":4,"angular":8,"angular-ui-router":6}],6:[function(require,module,exports){
+},{"./config":1,"./controllers/add.controller":2,"./controllers/login.controller":3,"./controllers/profile.controller":4,"./controllers/users.controller":5,"./services/player.service":7,"angular":10,"angular-ui-router":8}],7:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var PlayerService = function PlayerService($http, PARSE) {
+
+  var url = PARSE.URL + 'classes/player';
+
+  this.listPlayers = function () {
+    return $http({
+      url: url,
+      headers: PARSE.CONFIG.headers,
+      method: 'GET'
+    });
+  };
+
+  this.listUser = function (objectId) {
+    return $http({
+      url: url + '/' + objectId,
+      headers: PARSE.CONFIG.headers,
+      method: 'GET',
+      cache: true
+    });
+  };
+
+  var Player = function Player(obj) {
+    this.first = obj.first;
+    this.last = obj.last;
+    this.email = obj.email;
+    this.username = obj.username;
+    this.password = obj.password;
+  };
+
+  this.addPlayer = function (obj) {
+    var p = new Player(obj);
+
+    return $http.post(url, p, PARSE.CONFIG);
+  };
+};
+
+PlayerService.$inject = ['$http', 'PARSE'];
+
+exports['default'] = PlayerService;
+module.exports = exports['default'];
+
+},{}],8:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.15
@@ -4514,7 +4609,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],7:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.7
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -33419,11 +33514,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],8:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":7}]},{},[5])
+},{"./angular":9}]},{},[6])
 
 
 //# sourceMappingURL=main.js.map

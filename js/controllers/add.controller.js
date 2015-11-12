@@ -1,26 +1,14 @@
-let AddController = function($scope, $http, PARSE) {
-  
-  let url = PARSE.URL + 'classes/player';
+let AddController = function($scope, $http, PARSE, PlayerService) { 
+ 
 
-  let Player = function (obj) {
-    this.first = obj.first;
-    this.last = obj.last;
-    this.email = obj.email;
-    this.username = obj.username;
-    this.password = obj.password;
-  };
-
-  $scope.addPlayer = (obj) => {
-    let p = new Player(obj);
-
-    $http.post(url, p, PARSE.CONFIG).then( (res) => {
+  $scope.addPlayer = function(obj) {
+    PlayerService.addPlayer(obj).then( function(res) {
       $scope.player = {};
     });
-
   };
 
 };
 
-AddController.$inject = ['$scope', '$http', 'PARSE'];
+AddController.$inject = ['$scope', '$http', 'PARSE', 'PlayerService'];
 
 export default AddController;

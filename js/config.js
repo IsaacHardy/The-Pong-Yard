@@ -11,6 +11,11 @@ let config = function($stateProvider, $urlRouterProvider) {
       url: '/',
       templateUrl: 'templates/home.tpl.html'
     })
+    .state('root.login', {
+      url: '/login',
+      controller: 'LoginController',
+      templateUrl: 'templates/login.tpl.html'
+    })
     .state('root.profile', {
       url: '/profile/:objectId',
       controller: 'ProfileController',
