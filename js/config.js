@@ -11,13 +11,13 @@ let config = function($stateProvider, $urlRouterProvider) {
       url: '/',
       templateUrl: 'templates/home.tpl.html'
     })
-    .state('root.login', {
-      url: '/login',
-      controller: 'LoginController',
-      templateUrl: 'templates/login.tpl.html'
-    })
+    // .state('root.login', {
+    //   url: '/login',
+    //   controller: 'LoginController',
+    //   templateUrl: 'templates/login.tpl.html'
+    // })
     .state('root.profile', {
-      url: '/profile',
+      url: '/profile/:objectId',
       controller: 'ProfileController',
       templateUrl: 'templates/profile.tpl.html'
     })
@@ -27,14 +27,19 @@ let config = function($stateProvider, $urlRouterProvider) {
       templateUrl: 'templates/add.tpl.html'
     })
     .state('root.users', {
-      url: '/users',
+      url: '/leaderboard',
       controller: 'UsersController',
-      templateUrl: 'templates/user.tpl.html'
+      templateUrl: 'templates/leaderboard.tpl.html'
+    })
+    .state('root.results', {
+      url: '/results',
+      controller: 'ResultsController',
+      templateUrl: 'templates/results.tpl.html'
     })
     .state('root.leaderboard', {
-      url: '/leaderboard',
+      url: '/challenge',
       controller: '',
-      templateUrl: 'templates/leaderboard.tpl.html'
+      templateUrl: 'templates/user.tpl.html'
     });
 
 };

@@ -1,1 +1,19 @@
-<h3>Leaderboard</h3>
+<h3>The Leaderboard</h3>
+
+<table>
+  <tr>
+    <th>Rank</th>
+    <th>Name</th>
+    <th>Win%</th>
+    <th>W</th>
+    <th>L</th>
+  </tr>
+
+  <tr ng-repeat="player in users | orderBy:'-wins'">
+    <td>{{$index + 1}}</td>
+    <td><a href="#/profile/{{ player.objectId }}">{{ player.first }} {{ player.last }}</a></td>
+    <td>{{ player.wins / (player.loses + player.wins) | number: 3}}</td>
+    <td>{{ player.wins }}</td>
+    <td>{{ player.loses }}</td>
+  </tr>
+</table>

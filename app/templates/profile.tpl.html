@@ -1,1 +1,10 @@
-<h3>Coming soon....</h3>
+<h2>{{ playerSpec.first }} {{ playerSpec.last }}</h2>
+
+<ul>
+  <li>Wins: <span>{{ playerSpec.wins }}</span></li>
+  <li>Loses: <span>{{ playerSpec.loses }}</span></li>
+</ul>
+
+<form ng-submit>
+  <button>Challenge!</button>
+</form>

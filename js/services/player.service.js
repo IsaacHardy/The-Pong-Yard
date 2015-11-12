@@ -21,11 +21,13 @@ let PlayerService = function($http, PARSE) {
   };
 
   let Player = function (obj) {
+
     this.first = obj.first;
     this.last = obj.last;
-    this.email = obj.email;
-    this.username = obj.username;
-    this.password = obj.password;
+    this.wins = 0;
+    this.loses = 0;
+    
+
   };
 
   this.addPlayer = function (obj) {

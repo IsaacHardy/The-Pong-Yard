@@ -14,12 +14,14 @@ var config = function config($stateProvider, $urlRouterProvider) {
   }).state('root.home', {
     url: '/',
     templateUrl: 'templates/home.tpl.html'
-  }).state('root.login', {
-    url: '/login',
-    controller: 'LoginController',
-    templateUrl: 'templates/login.tpl.html'
-  }).state('root.profile', {
-    url: '/profile',
+  })
+  // .state('root.login', {
+  //   url: '/login',
+  //   controller: 'LoginController',
+  //   templateUrl: 'templates/login.tpl.html'
+  // })
+  .state('root.profile', {
+    url: '/profile/:objectId',
     controller: 'ProfileController',
     templateUrl: 'templates/profile.tpl.html'
   }).state('root.signup', {
@@ -27,13 +29,17 @@ var config = function config($stateProvider, $urlRouterProvider) {
     controller: 'AddController',
     templateUrl: 'templates/add.tpl.html'
   }).state('root.users', {
-    url: '/users',
-    controller: 'UsersController',
-    templateUrl: 'templates/user.tpl.html'
-  }).state('root.leaderboard', {
     url: '/leaderboard',
-    controller: '',
+    controller: 'UsersController',
     templateUrl: 'templates/leaderboard.tpl.html'
+  }).state('root.results', {
+    url: '/results',
+    controller: 'ResultsController',
+    templateUrl: 'templates/results.tpl.html'
+  }).state('root.leaderboard', {
+    url: '/challenge',
+    controller: '',
+    templateUrl: 'templates/user.tpl.html'
   });
 };
 
@@ -124,7 +130,12 @@ module.exports = exports['default'];
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var ProfileController = function ProfileController($scope, $stateParams, $http, PARSE, PlayerService) {};
+var ProfileController = function ProfileController($scope, $stateParams, $http, PARSE, PlayerService) {
+
+  PlayerService.listUser($stateParams.objectId).then(function (res) {
+    $scope.playerSpec = res.data;
+  });
+};
 
 ProfileController.$inject = ['$scope', '$stateParams', '$http', 'PARSE', 'PlayerService'];
 
@@ -140,10 +151,6 @@ Object.defineProperty(exports, '__esModule', {
 var ProfileController = function ProfileController($scope, $http, PARSE, PlayerService) {
 
   var url = PARSE.URL + 'classes/player/';
-
-  // $http.get(url, PARSE.CONFIG).then((res) => {
-  //   $scope.users = res.data.results;
-  // }); 
 
   PlayerService.listPlayers().then(function (res) {
     $scope.users = res.data.results;
@@ -230,11 +237,11 @@ var PlayerService = function PlayerService($http, PARSE) {
   };
 
   var Player = function Player(obj) {
+
     this.first = obj.first;
     this.last = obj.last;
-    this.email = obj.email;
-    this.username = obj.username;
-    this.password = obj.password;
+    this.wins = 0;
+    this.loses = 0;
   };
 
   this.addPlayer = function (obj) {

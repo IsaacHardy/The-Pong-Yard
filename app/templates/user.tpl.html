@@ -1,7 +1,7 @@
-<h3>All the Players</h3>
+<h3>Player Pool</h3>
 
 <ul>
   <li ng-repeat="player in users">
-    <a href="#/profile/{{ player.objectId }}">{{ player.first }} {{ player.last }}</a>
+    {{ player.first }} {{ player.last }}
   </li>
 </ul>
