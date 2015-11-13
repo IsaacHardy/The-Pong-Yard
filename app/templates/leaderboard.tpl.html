@@ -1,19 +1,21 @@
-<h3>The Leaderboard</h3>
+<div class="inside-container">
+  <h3>The Leaderboard</h3>
 
-<table>
-  <tr>
-    <th>Rank</th>
-    <th>Name</th>    
-    <th>W</th>
-    <th>L</th>
-    <th>Win%</th>
-  </tr>
+  <table>
+    <tr>
+      <th>Rank</th>
+      <th>Name</th>    
+      <th>Wins</th>
+      <th>Loses</th>
+      <th>Win%</th>
+    </tr>
 
-  <tr ng-repeat="player in users | orderBy:'-wins'">
-    <td>{{$index + 1}}</td>
-    <td><a href="#/profile/{{ player.objectId }}">{{ player.first }} {{ player.last }}</a></td>    
-    <td>{{ player.wins }}</td>
-    <td>{{ player.loses }}</td>
-    <td>{{ player.wins / (player.loses + player.wins) | number: 3}}</td>
-  </tr>
-</table>
+    <tr ng-repeat="player in users | orderBy:'-percent'">
+      <td>{{$index + 1}}</td>
+      <td><a href="#/profile/{{ player.objectId }}">{{ player.first }} {{ player.last }}</a></td>    
+      <td>{{ player.wins }}</td>
+      <td>{{ player.loses }}</td>
+      <td>{{ player.percent | number: 3}}</td>
+    </tr>
+  </table>
+</div>

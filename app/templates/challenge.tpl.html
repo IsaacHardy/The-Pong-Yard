@@ -1,27 +1,39 @@
-<h3>Player Pool</h3>
+<div class="inside-container">
 
-<ul>
-  <li ng-repeat="player in users" ng-click="selectPlayer(player)">
-    <div>{{ player.first }} {{ player.last }}</div>
-  </li>
-</ul>
+  <div class="you">
+    <h3>You</h3>
+    <hr>
 
-<h3>You</h3>
+    <ul>
+      <li ng-repeat="playerOne in playerOne">
+        {{ playerOne.first }} {{ playerOne.last }}
+      </li>
+    </ul>
+  </div>
+  
+  <div class="pool">
+    <h3>Player Pool</h3>
+    <hr>
 
-<ul>
-  <li ng-repeat="playerOne in playerOne">
-    {{ playerOne.first }} {{ playerOne.last }}
-  </li>
-</ul>
+    <ul>
+      <li ng-repeat="player in users" ng-click="selectPlayer(player)">
+        <div>{{ player.first }} {{ player.last }}</div>
+      </li>
+    </ul>
+  </div>
 
-<h3>Your Opponent</h3>
+  <div class="them">
+    <h3>Opponent</h3>
+    <hr>
 
-<ul>
-  <li ng-repeat="playerTwo in playerTwo">
-    {{ playerTwo.first }} {{ playerTwo.last }}
-  </li>
-</ul>
+    <ul>
+      <li ng-repeat="playerTwo in playerTwo">
+        {{ playerTwo.first }} {{ playerTwo.last }}
+      </li>
+    </ul>
+  </div>
 
-<form ng-submit="playGame()">
-  <button>Pong</button>
-</form>
+  <form class="pong-btn" ng-submit="playGame()">
+    <button>Pong</button>
+  </form>
+</div>

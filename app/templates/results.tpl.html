@@ -1,11 +1,38 @@
-<p>You: {{ one.first }} {{ one.last }}</p>
 
-<p>Your Opponent: {{ two.first }} {{ two.last }}</p>
+<div class="inside-container">
 
-<form ng-submit="oneWinsResults(one, two)">
-  <button>{{ one.first }} Won!</button>
-</form>
 
-<form ng-submit="twoWinsResults(two, one)">
-  <button>{{ two.first }} Won!</button>
-</form>
+  <div class="results-you">
+    <p><span>You</span> {{ one.first }} {{ one.last }} <span>({{ one.wins }}-{{ one.loses }})</span></p>
+  </div>
+  <div class="results-them">
+    <p><span>({{ two.wins }}-{{ two.loses }})</span> {{ two.first }} {{ two.last }} <span>Opponent</span></p>    
+  </div>
+
+  <hr>
+
+  <h5>Step 1: Insert score into blank input boxes. </h5>
+
+  <form class="results-score" ng-submit="addGame(score, one.first, two.first)">
+    <input class="input-you" placeholder="Your First Name" ng-model="one.first">
+    <input class="input-opp" placeholder="Opponent First Name" ng-model="two.first">
+    <input placeholder="{{one.first}}'s Score" ng-model="score.youScore">
+    <input placeholder="{{two.first}}'s Score" ng-model="score.oppScore">
+    <h5>Step 2: Click the "Log Game" button when complete.</h5>
+    <button>Log Game</button>
+  </form>
+
+  <hr>
+
+  <h5>Step 3: Who won? Click the correct button to confirm winner!</h5>
+
+  <form class="results-one-won" ng-submit="oneWinsResults(one, two)">
+    <button>{{ one.first }} Won!</button>
+  </form>
+
+  <form class="results-two-won" ng-submit="twoWinsResults(two, one)">
+    <button>{{ two.first }} Won!</button>
+  </form>
+
+  <hr>
+</div>

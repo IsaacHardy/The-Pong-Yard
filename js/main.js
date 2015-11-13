@@ -13,6 +13,7 @@ import ResultsController from './controllers/results.controller';
 
 
 import PlayerService from './services/player.service';
+import GameService from './services/game.service';
 
 angular
   .module('app', ['ui.router', 'ngCookies'])
@@ -33,4 +34,5 @@ angular
   .controller('ChallengeController', ChallengeController)
   .controller('ResultsController', ResultsController)
   .service('PlayerService', PlayerService)
+  .service('GameService', GameService)
 ;

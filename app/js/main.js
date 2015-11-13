@@ -112,7 +112,7 @@ ChallengeController.$inject = ['$scope', 'PlayerService', '$state', '$stateParam
 exports['default'] = ChallengeController;
 module.exports = exports['default'];
 
-},{"underscore":15}],4:[function(require,module,exports){
+},{"underscore":16}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -214,7 +214,7 @@ module.exports = exports['default'];
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var ResultsController = function ResultsController($scope, $stateParams, PlayerService, $rootScope, $state) {
+var ResultsController = function ResultsController($scope, $stateParams, PlayerService, $rootScope, $state, GameService) {
 
   $scope.one = $rootScope.playerOne[0];
   $scope.two = $rootScope.playerTwo[0];
@@ -222,6 +222,9 @@ var ResultsController = function ResultsController($scope, $stateParams, PlayerS
   $scope.oneWinsResults = function (one, two) {
     $scope.one.wins = $scope.one.wins + 1;
     $scope.two.loses = $scope.two.loses + 1;
+
+    one.percent = Number(one.wins / (one.wins + one.loses));
+    two.percent = Number(two.wins / (two.wins + two.loses));
 
     PlayerService.update(one).then(function (res) {
       PlayerService.update(two).then(function (res) {
@@ -234,15 +237,27 @@ var ResultsController = function ResultsController($scope, $stateParams, PlayerS
     $scope.two.wins = $scope.two.wins + 1;
     $scope.one.loses = $scope.one.loses + 1;
 
+    two.percent = Number(two.wins / (two.wins + two.loses));
+    one.percent = Number(one.wins / (one.wins + one.loses));
+
     PlayerService.update(two).then(function (res) {
       PlayerService.update(one).then(function (res) {
         $state.go('root.leaderboard');
       });
     });
   };
+
+  $scope.addGame = function (obj, x, y) {
+    obj.you = x;
+    obj.opp = y;
+
+    GameService.logGame(obj).then(function (res) {
+      $scope.score = {};
+    });
+  };
 };
 
-ResultsController.$inject = ['$scope', '$stateParams', 'PlayerService', '$rootScope', '$state'];
+ResultsController.$inject = ['$scope', '$stateParams', 'PlayerService', '$rootScope', '$state', 'GameService'];
 
 exports['default'] = ResultsController;
 module.exports = exports['default'];
@@ -292,6 +307,10 @@ var _servicesPlayerService = require('./services/player.service');
 
 var _servicesPlayerService2 = _interopRequireDefault(_servicesPlayerService);
 
+var _servicesGameService = require('./services/game.service');
+
+var _servicesGameService2 = _interopRequireDefault(_servicesGameService);
+
 _angular2['default'].module('app', ['ui.router', 'ngCookies']).constant('PARSE', {
   URL: 'https://api.parse.com/1/',
   CONFIG: {
@@ -300,9 +319,38 @@ _angular2['default'].module('app', ['ui.router', 'ngCookies']).constant('PARSE',
       'X-Parse-REST-API-Key': 'GcHk8Ed0qlmhgTTqwsxiJVkOrqLotzvjhLVCHmOs'
     }
   }
-}).config(_config2['default']).controller('AddController', _controllersAddController2['default']).controller('ProfileController', _controllersProfileController2['default']).controller('LeadersController', _controllersLeadersController2['default']).controller('LoginController', _controllersLoginController2['default']).controller('ChallengeController', _controllersChallengeController2['default']).controller('ResultsController', _controllersResultsController2['default']).service('PlayerService', _servicesPlayerService2['default']);
+}).config(_config2['default']).controller('AddController', _controllersAddController2['default']).controller('ProfileController', _controllersProfileController2['default']).controller('LeadersController', _controllersLeadersController2['default']).controller('LoginController', _controllersLoginController2['default']).controller('ChallengeController', _controllersChallengeController2['default']).controller('ResultsController', _controllersResultsController2['default']).service('PlayerService', _servicesPlayerService2['default']).service('GameService', _servicesGameService2['default']);
 
-},{"./config":1,"./controllers/add.controller":2,"./controllers/challenge.controller":3,"./controllers/leaders.controller":4,"./controllers/login.controller":5,"./controllers/profile.controller":6,"./controllers/results.controller":7,"./services/player.service":9,"angular":14,"angular-cookies":11,"angular-ui-router":12}],9:[function(require,module,exports){
+},{"./config":1,"./controllers/add.controller":2,"./controllers/challenge.controller":3,"./controllers/leaders.controller":4,"./controllers/login.controller":5,"./controllers/profile.controller":6,"./controllers/results.controller":7,"./services/game.service":9,"./services/player.service":10,"angular":15,"angular-cookies":12,"angular-ui-router":13}],9:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var GameService = function GameService($http, PARSE) {
+  var url = PARSE.URL + 'classes/games';
+
+  var Game = function Game(obj) {
+
+    this.youScore = obj.youScore;
+    this.oppScore = obj.oppScore;
+    this.you = obj.you;
+    this.opp = obj.opp;
+  };
+
+  this.logGame = function (obj) {
+    var g = new Game(obj);
+
+    return $http.post(url, g, PARSE.CONFIG);
+  };
+};
+
+GameService.$inject = ['$http', 'PARSE'];
+
+exports['default'] = GameService;
+module.exports = exports['default'];
+
+},{}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -335,6 +383,7 @@ var PlayerService = function PlayerService($http, PARSE, $state) {
     this.last = obj.last;
     this.wins = 0;
     this.loses = 0;
+    this.percent = 0;
   };
 
   this.addPlayer = function (obj) {
@@ -344,6 +393,7 @@ var PlayerService = function PlayerService($http, PARSE, $state) {
   };
 
   this.update = function (obj) {
+
     return $http.put(url + '/' + obj.objectId, obj, PARSE.CONFIG);
   };
 };
@@ -353,7 +403,7 @@ PlayerService.$inject = ['$http', 'PARSE', '$state'];
 exports['default'] = PlayerService;
 module.exports = exports['default'];
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.7
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -676,11 +726,11 @@ angular.module('ngCookies').provider('$$cookieWriter', function $$CookieWriterPr
 
 })(window, window.angular);
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 require('./angular-cookies');
 module.exports = 'ngCookies';
 
-},{"./angular-cookies":10}],12:[function(require,module,exports){
+},{"./angular-cookies":11}],13:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.15
@@ -5051,7 +5101,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.7
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -33956,11 +34006,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":13}],15:[function(require,module,exports){
+},{"./angular":14}],16:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors

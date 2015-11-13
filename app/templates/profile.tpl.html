@@ -1,10 +1,12 @@
-<h2>{{ playerSpec.first }} {{ playerSpec.last }}</h2>
+<div class="inside-container">
+  <h2>{{ playerSpec.first }} {{ playerSpec.last }}</h2>
 
-<ul>
-  <li>Wins: <span>{{ playerSpec.wins }}</span></li>
-  <li>Loses: <span>{{ playerSpec.loses }}</span></li>
-</ul>
+  <ul>
+    <li>Wins: <span>{{ playerSpec.wins }}</span></li>
+    <li>Loses: <span>{{ playerSpec.loses }}</span></li>
+  </ul>
 
-<form ng-submit="vsPage()">
-  <button>Challenge!</button>
-</form>
+  <form ng-submit="vsPage()">
+    <button>Challenge!</button>
+  </form>
+</div>

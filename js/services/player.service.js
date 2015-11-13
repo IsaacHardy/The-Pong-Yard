@@ -26,6 +26,7 @@ let PlayerService = function($http, PARSE, $state) {
     this.last = obj.last;
     this.wins = 0;
     this.loses = 0; 
+    this.percent = 0;
 
   };
 
@@ -36,6 +37,7 @@ let PlayerService = function($http, PARSE, $state) {
   };
 
   this.update = function (obj) {
+    
     return $http.put(url + '/' + obj.objectId, obj, PARSE.CONFIG);
   };
 
