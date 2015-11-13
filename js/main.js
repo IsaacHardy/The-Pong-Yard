@@ -10,7 +10,7 @@ import LeadersController from './controllers/leaders.controller';
 import LoginController from './controllers/login.controller';
 import ChallengeController from './controllers/challenge.controller';
 
-import PlayerService  from './services/player.service';
+import PlayerService from './services/player.service';
 
 angular
   .module('app', ['ui.router', 'ngCookies'])

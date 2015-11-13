@@ -1,7 +1,23 @@
 <h3>Player Pool</h3>
 
 <ul>
-  <li ng-repeat="player in users">
-    {{ player.first }} {{ player.last }}
+  <li ng-repeat="player in users" ng-click="selectPlayer(player)">
+    <div>{{ player.first }} {{ player.last }}</div>
+  </li>
+</ul>
+
+<h3>Player One</h3>
+
+<ul>
+  <li ng-repeat="playerOne in playerOne">
+    {{ playerOne.first }} {{ playerOne.last }}
+  </li>
+</ul>
+
+<h3>Player Two</h3>
+
+<ul>
+  <li ng-repeat="playerTwo in playerTwo">
+    {{ playerTwo.first }} {{ playerTwo.last }}
   </li>
 </ul>
