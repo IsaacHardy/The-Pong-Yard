@@ -81,9 +81,9 @@ var _underscore = require('underscore');
 
 var _underscore2 = _interopRequireDefault(_underscore);
 
-var ChallengeController = function ChallengeController($scope, PlayerService, $state) {
-  $scope.playerOne = [];
-  $scope.playerTwo = [];
+var ChallengeController = function ChallengeController($scope, PlayerService, $state, $stateParams, $rootScope) {
+  $rootScope.playerOne = [];
+  $rootScope.playerTwo = [];
 
   PlayerService.listPlayers().then(function (res) {
     $scope.users = res.data.results;
@@ -102,13 +102,12 @@ var ChallengeController = function ChallengeController($scope, PlayerService, $s
       alert("You've already selected two players.");
     }
   };
-
   $scope.playGame = function () {
     $state.go('root.results');
   };
 };
 
-ChallengeController.$inject = ['$scope', 'PlayerService', '$state'];
+ChallengeController.$inject = ['$scope', 'PlayerService', '$state', '$stateParams', '$rootScope'];
 
 exports['default'] = ChallengeController;
 module.exports = exports['default'];
@@ -215,9 +214,35 @@ module.exports = exports['default'];
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var ResultsController = function ResultsController($scope, $stateParams, PlayerService) {};
+var ResultsController = function ResultsController($scope, $stateParams, PlayerService, $rootScope, $state) {
 
-ResultsController.$inject = ['$scope', '$stateParams', 'PlayerService'];
+  $scope.one = $rootScope.playerOne[0];
+  $scope.two = $rootScope.playerTwo[0];
+
+  $scope.oneWinsResults = function (one, two) {
+    $scope.one.wins = $scope.one.wins + 1;
+    $scope.two.loses = $scope.two.loses + 1;
+
+    PlayerService.update(one).then(function (res) {
+      PlayerService.update(two).then(function (res) {
+        $state.go('root.leaderboard');
+      });
+    });
+  };
+
+  $scope.twoWinsResults = function (two, one) {
+    $scope.two.wins = $scope.two.wins + 1;
+    $scope.one.loses = $scope.one.loses + 1;
+
+    PlayerService.update(two).then(function (res) {
+      PlayerService.update(one).then(function (res) {
+        $state.go('root.leaderboard');
+      });
+    });
+  };
+};
+
+ResultsController.$inject = ['$scope', '$stateParams', 'PlayerService', '$rootScope', '$state'];
 
 exports['default'] = ResultsController;
 module.exports = exports['default'];
@@ -318,9 +343,9 @@ var PlayerService = function PlayerService($http, PARSE, $state) {
     return $http.post(url, p, PARSE.CONFIG);
   };
 
-  // this.sendLogin = function (userObj) {
-  //   $http.post(url + '/login', userObj, PARSE.CONFIG);
-  // };
+  this.update = function (obj) {
+    return $http.put(url + '/' + obj.objectId, obj, PARSE.CONFIG);
+  };
 };
 
 PlayerService.$inject = ['$http', 'PARSE', '$state'];

@@ -35,11 +35,9 @@ let PlayerService = function($http, PARSE, $state) {
     return $http.post(url, p, PARSE.CONFIG);    
   };
 
- 
-
-  // this.sendLogin = function (userObj) {
-  //   $http.post(url + '/login', userObj, PARSE.CONFIG);
-  // };
+  this.update = function (obj) {
+    return $http.put(url + '/' + obj.objectId, obj, PARSE.CONFIG);
+  };
 
 
 };

@@ -1,1 +1,11 @@
-<p>results</p>
+<p>You: {{ one.first }} {{ one.last }}</p>
+
+<p>Your Opponent: {{ two.first }} {{ two.last }}</p>
+
+<form ng-submit="oneWinsResults(one, two)">
+  <button>{{ one.first }} Won!</button>
+</form>
+
+<form ng-submit="twoWinsResults(two, one)">
+  <button>{{ two.first }} Won!</button>
+</form>

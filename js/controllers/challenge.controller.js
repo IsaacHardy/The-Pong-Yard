@@ -1,8 +1,8 @@
 import _ from 'underscore';
 
-let ChallengeController = function($scope, PlayerService, $state) {
-  $scope.playerOne = [];
-  $scope.playerTwo = [];
+let ChallengeController = function($scope, PlayerService, $state, $stateParams, $rootScope) {
+  $rootScope.playerOne = [];
+  $rootScope.playerTwo = [];
 
   PlayerService.listPlayers().then ((res) => {
     $scope.users = res.data.results;
@@ -21,14 +21,13 @@ let ChallengeController = function($scope, PlayerService, $state) {
       alert("You've already selected two players.");
     }
   };
-
   $scope.playGame = function () {
-    $state.go('root.results');
+    $state.go('root.results');    
   };
 
 
 };
 
-ChallengeController.$inject = ['$scope', 'PlayerService', '$state'];
+ChallengeController.$inject = ['$scope', 'PlayerService', '$state', '$stateParams','$rootScope'];
 
 export default ChallengeController;
