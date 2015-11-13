@@ -10,6 +10,7 @@ import LeadersController from './controllers/leaders.controller';
 import LoginController from './controllers/login.controller';
 import ChallengeController from './controllers/challenge.controller';
 import ResultsController from './controllers/results.controller';
+import HomeController from './controllers/home.controller';
 
 
 import PlayerService from './services/player.service';
@@ -33,6 +34,7 @@ angular
   .controller('LoginController', LoginController)
   .controller('ChallengeController', ChallengeController)
   .controller('ResultsController', ResultsController)
+  .controller('HomeController', HomeController)
   .service('PlayerService', PlayerService)
   .service('GameService', GameService)
 ;

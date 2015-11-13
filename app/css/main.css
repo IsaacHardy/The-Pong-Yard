@@ -6402,6 +6402,22 @@ body {
   border-radius: 10px;
   margin-top: 5%; }
 
+.sidebar {
+  width: 200px;
+  margin: 20px auto;
+  color: #DF4934;
+  background-color: #333333;
+  opacity: .9;
+  padding: 2%;
+  border-radius: 10px;
+  margin-top: 5%;
+  position: absolute;
+  left: 0;
+  margin-left: 8%; }
+  .sidebar h5 {
+    color: white;
+    font-weight: normal; }
+
 .inside-container {
   opacity: 1.2; }
   .inside-container h2, .inside-container h3, .inside-container h5, .inside-container p, .inside-container ol, .inside-container ul, .inside-container li {

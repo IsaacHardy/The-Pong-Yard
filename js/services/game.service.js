@@ -16,6 +16,15 @@ let GameService = function($http, PARSE) {
     return $http.post(url, g, PARSE.CONFIG);    
   };
 
+  this.lastGame = function (objectId) {
+    return $http({
+      url: url,
+      headers: PARSE.CONFIG.headers,
+      method: 'GET',
+      cache: true
+    });
+  };
+
 };
 
 GameService.$inject = ['$http', 'PARSE'];
