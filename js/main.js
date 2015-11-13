@@ -6,8 +6,10 @@ import config from './config';
 
 import AddController from './controllers/add.controller';
 import ProfileController from './controllers/profile.controller';
-import UsersController from './controllers/users.controller';
+import LeadersController from './controllers/leaders.controller';
 import LoginController from './controllers/login.controller';
+import ChallengeController from './controllers/challenge.controller';
+
 import PlayerService  from './services/player.service';
 
 angular
@@ -24,7 +26,8 @@ angular
   .config(config)
   .controller('AddController', AddController)
   .controller('ProfileController', ProfileController)
-  .controller('UsersController', UsersController)
+  .controller('LeadersController', LeadersController)
   .controller('LoginController', LoginController)
+  .controller('ChallengeController', ChallengeController)
   .service('PlayerService', PlayerService)
 ;

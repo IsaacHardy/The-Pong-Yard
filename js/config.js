@@ -26,9 +26,9 @@ let config = function($stateProvider, $urlRouterProvider) {
       controller: 'AddController',
       templateUrl: 'templates/add.tpl.html'
     })
-    .state('root.users', {
+    .state('root.leaderboard', {
       url: '/leaderboard',
-      controller: 'UsersController',
+      controller: 'LeadersController',
       templateUrl: 'templates/leaderboard.tpl.html'
     })
     .state('root.results', {
@@ -36,10 +36,10 @@ let config = function($stateProvider, $urlRouterProvider) {
       controller: 'ResultsController',
       templateUrl: 'templates/results.tpl.html'
     })
-    .state('root.leaderboard', {
+    .state('root.challenge', {
       url: '/challenge',
-      controller: '',
-      templateUrl: 'templates/user.tpl.html'
+      controller: 'ChallengeController',
+      templateUrl: 'templates/challenge.tpl.html'
     });
 
 };

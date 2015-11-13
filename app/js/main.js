@@ -28,18 +28,18 @@ var config = function config($stateProvider, $urlRouterProvider) {
     url: '/signup',
     controller: 'AddController',
     templateUrl: 'templates/add.tpl.html'
-  }).state('root.users', {
+  }).state('root.leaderboard', {
     url: '/leaderboard',
-    controller: 'UsersController',
+    controller: 'LeadersController',
     templateUrl: 'templates/leaderboard.tpl.html'
   }).state('root.results', {
     url: '/results',
     controller: 'ResultsController',
     templateUrl: 'templates/results.tpl.html'
-  }).state('root.leaderboard', {
+  }).state('root.challenge', {
     url: '/challenge',
-    controller: '',
-    templateUrl: 'templates/user.tpl.html'
+    controller: 'ChallengeController',
+    templateUrl: 'templates/challenge.tpl.html'
   });
 };
 
@@ -69,6 +69,42 @@ exports['default'] = AddController;
 module.exports = exports['default'];
 
 },{}],3:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var ChallengeController = function ChallengeController($scope, PlayerService) {
+
+  PlayerService.listPlayers().then(function (res) {
+    $scope.users = res.data.results;
+  });
+};
+
+ChallengeController.$inject = ['$scope', 'PlayerService'];
+
+exports['default'] = ChallengeController;
+module.exports = exports['default'];
+
+},{}],4:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var ProfileController = function ProfileController($scope, PlayerService) {
+
+  PlayerService.listPlayers().then(function (res) {
+    $scope.users = res.data.results;
+  });
+};
+
+ProfileController.$inject = ['$scope', 'PlayerService'];
+
+exports['default'] = ProfileController;
+module.exports = exports['default'];
+
+},{}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -124,7 +160,7 @@ LoginController.$inject = ['$scope', 'PlayerService'];
 exports['default'] = LoginController;
 module.exports = exports['default'];
 
-},{}],4:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -142,27 +178,7 @@ ProfileController.$inject = ['$scope', '$stateParams', '$http', 'PARSE', 'Player
 exports['default'] = ProfileController;
 module.exports = exports['default'];
 
-},{}],5:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-var ProfileController = function ProfileController($scope, $http, PARSE, PlayerService) {
-
-  var url = PARSE.URL + 'classes/player/';
-
-  PlayerService.listPlayers().then(function (res) {
-    $scope.users = res.data.results;
-  });
-};
-
-ProfileController.$inject = ['$scope', '$http', 'PARSE', 'PlayerService'];
-
-exports['default'] = ProfileController;
-module.exports = exports['default'];
-
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -187,13 +203,17 @@ var _controllersProfileController = require('./controllers/profile.controller');
 
 var _controllersProfileController2 = _interopRequireDefault(_controllersProfileController);
 
-var _controllersUsersController = require('./controllers/users.controller');
+var _controllersLeadersController = require('./controllers/leaders.controller');
 
-var _controllersUsersController2 = _interopRequireDefault(_controllersUsersController);
+var _controllersLeadersController2 = _interopRequireDefault(_controllersLeadersController);
 
 var _controllersLoginController = require('./controllers/login.controller');
 
 var _controllersLoginController2 = _interopRequireDefault(_controllersLoginController);
+
+var _controllersChallengeController = require('./controllers/challenge.controller');
+
+var _controllersChallengeController2 = _interopRequireDefault(_controllersChallengeController);
 
 var _servicesPlayerService = require('./services/player.service');
 
@@ -207,9 +227,9 @@ _angular2['default'].module('app', ['ui.router', 'ngCookies']).constant('PARSE',
       'X-Parse-REST-API-Key': 'GcHk8Ed0qlmhgTTqwsxiJVkOrqLotzvjhLVCHmOs'
     }
   }
-}).config(_config2['default']).controller('AddController', _controllersAddController2['default']).controller('ProfileController', _controllersProfileController2['default']).controller('UsersController', _controllersUsersController2['default']).controller('LoginController', _controllersLoginController2['default']).service('PlayerService', _servicesPlayerService2['default']);
+}).config(_config2['default']).controller('AddController', _controllersAddController2['default']).controller('ProfileController', _controllersProfileController2['default']).controller('LeadersController', _controllersLeadersController2['default']).controller('LoginController', _controllersLoginController2['default']).controller('ChallengeController', _controllersChallengeController2['default']).service('PlayerService', _servicesPlayerService2['default']);
 
-},{"./config":1,"./controllers/add.controller":2,"./controllers/login.controller":3,"./controllers/profile.controller":4,"./controllers/users.controller":5,"./services/player.service":7,"angular":12,"angular-cookies":9,"angular-ui-router":10}],7:[function(require,module,exports){
+},{"./config":1,"./controllers/add.controller":2,"./controllers/challenge.controller":3,"./controllers/leaders.controller":4,"./controllers/login.controller":5,"./controllers/profile.controller":6,"./services/player.service":8,"angular":13,"angular-cookies":10,"angular-ui-router":11}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -250,9 +270,9 @@ var PlayerService = function PlayerService($http, PARSE) {
     return $http.post(url, p, PARSE.CONFIG);
   };
 
-  this.sendLogin = function (userObj) {
-    $http.post(url + '/login', userObj, PARSE.CONFIG);
-  };
+  // this.sendLogin = function (userObj) {
+  //   $http.post(url + '/login', userObj, PARSE.CONFIG);
+  // };
 };
 
 PlayerService.$inject = ['$http', 'PARSE'];
@@ -260,7 +280,7 @@ PlayerService.$inject = ['$http', 'PARSE'];
 exports['default'] = PlayerService;
 module.exports = exports['default'];
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.7
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -583,11 +603,11 @@ angular.module('ngCookies').provider('$$cookieWriter', function $$CookieWriterPr
 
 })(window, window.angular);
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 require('./angular-cookies');
 module.exports = 'ngCookies';
 
-},{"./angular-cookies":8}],10:[function(require,module,exports){
+},{"./angular-cookies":9}],11:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.15
@@ -4958,7 +4978,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.7
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -33863,11 +33883,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":11}]},{},[6])
+},{"./angular":12}]},{},[7])
 
 
 //# sourceMappingURL=main.js.map

@@ -25,8 +25,7 @@ let PlayerService = function($http, PARSE) {
     this.first = obj.first;
     this.last = obj.last;
     this.wins = 0;
-    this.loses = 0;
-    
+    this.loses = 0;    
 
   };
 
@@ -36,9 +35,9 @@ let PlayerService = function($http, PARSE) {
     return $http.post(url, p, PARSE.CONFIG);    
   };
 
-  this.sendLogin = function (userObj) {
-    $http.post(url + '/login', userObj, PARSE.CONFIG);
-  };
+  // this.sendLogin = function (userObj) {
+  //   $http.post(url + '/login', userObj, PARSE.CONFIG);
+  // };
 
 
 };
