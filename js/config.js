@@ -5,11 +5,11 @@ let config = function($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('root', {
       abstract: true,
+      controller: 'HomeController',
       templateUrl: 'templates/layout.tpl.html'
     })
     .state('root.home', {
       url: '/',
-      controller: 'HomeController',
       templateUrl: 'templates/home.tpl.html'
     })
     // .state('root.login', {

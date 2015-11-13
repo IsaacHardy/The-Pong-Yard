@@ -10,10 +10,10 @@ var config = function config($stateProvider, $urlRouterProvider) {
 
   $stateProvider.state('root', {
     abstract: true,
+    controller: 'HomeController',
     templateUrl: 'templates/layout.tpl.html'
   }).state('root.home', {
     url: '/',
-    controller: 'HomeController',
     templateUrl: 'templates/home.tpl.html'
   })
   // .state('root.login', {
@@ -119,12 +119,23 @@ module.exports = exports['default'];
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _underscore = require('underscore');
+
+var _underscore2 = _interopRequireDefault(_underscore);
+
 var HomeController = function HomeController($scope, $rootScope, GameService) {
 
   GameService.lastGame().then(function (res) {
 
-    console.log(res);
-    $scope.game = res.data.results;
+    $scope.data = res.data.results;
+
+    $scope.last = _underscore2['default'].sortBy($scope.data, function (game) {
+      return game.createdAt;
+    });
+    $scope.game = $scope.last[0];
   });
 };
 
@@ -133,7 +144,7 @@ HomeController.$inject = ['$scope', '$rootScope', 'GameService'];
 exports['default'] = HomeController;
 module.exports = exports['default'];
 
-},{}],5:[function(require,module,exports){
+},{"underscore":17}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
