@@ -14,8 +14,14 @@
 
 <section class="sidebar">
   <div>
-  <h5>Last Game</h5>
-  <p>{{ game.you }} beat {{ game.opp }}: {{ game.youScore }}  to {{ game.oppScore }}</p>
+    <h5>Last Game</h5>
+    <p>{{ game.you }}</p>
+    <hr> 
+    <span>versus</span> 
+    <hr> 
+    <p>{{ game.opp }}</p>
+    <hr> 
+    <p>{{ game.youScore }} <span>to</span> {{ game.oppScore }}</p>
   </div>
 </section>
 

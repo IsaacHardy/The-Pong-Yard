@@ -6413,10 +6413,15 @@ body {
   margin-top: 5%;
   position: absolute;
   left: 0;
-  margin-left: 8%; }
+  margin-left: 8%;
+  text-align: center; }
   .sidebar h5 {
     color: white;
     font-weight: normal; }
+  .sidebar p {
+    font-weight: bold; }
+  .sidebar span {
+    color: white; }
 
 .inside-container {
   opacity: 1.2; }
