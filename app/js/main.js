@@ -81,7 +81,7 @@ var _underscore = require('underscore');
 
 var _underscore2 = _interopRequireDefault(_underscore);
 
-var ChallengeController = function ChallengeController($scope, PlayerService) {
+var ChallengeController = function ChallengeController($scope, PlayerService, $state) {
   $scope.playerOne = [];
   $scope.playerTwo = [];
 
@@ -102,14 +102,18 @@ var ChallengeController = function ChallengeController($scope, PlayerService) {
       alert("You've already selected two players.");
     }
   };
+
+  $scope.playGame = function () {
+    $state.go('root.results');
+  };
 };
 
-ChallengeController.$inject = ['$scope', 'PlayerService'];
+ChallengeController.$inject = ['$scope', 'PlayerService', '$state'];
 
 exports['default'] = ChallengeController;
 module.exports = exports['default'];
 
-},{"underscore":14}],4:[function(require,module,exports){
+},{"underscore":15}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -189,19 +193,36 @@ module.exports = exports['default'];
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var ProfileController = function ProfileController($scope, $stateParams, $http, PARSE, PlayerService) {
+var ProfileController = function ProfileController($scope, $stateParams, PlayerService, $state) {
 
   PlayerService.listUser($stateParams.objectId).then(function (res) {
     $scope.playerSpec = res.data;
   });
+
+  $scope.vsPage = function () {
+    $state.go('root.challenge');
+  };
 };
 
-ProfileController.$inject = ['$scope', '$stateParams', '$http', 'PARSE', 'PlayerService'];
+ProfileController.$inject = ['$scope', '$stateParams', 'PlayerService', '$state'];
 
 exports['default'] = ProfileController;
 module.exports = exports['default'];
 
 },{}],7:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var ResultsController = function ResultsController($scope, $stateParams, PlayerService) {};
+
+ResultsController.$inject = ['$scope', '$stateParams', 'PlayerService'];
+
+exports['default'] = ResultsController;
+module.exports = exports['default'];
+
+},{}],8:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -238,6 +259,10 @@ var _controllersChallengeController = require('./controllers/challenge.controlle
 
 var _controllersChallengeController2 = _interopRequireDefault(_controllersChallengeController);
 
+var _controllersResultsController = require('./controllers/results.controller');
+
+var _controllersResultsController2 = _interopRequireDefault(_controllersResultsController);
+
 var _servicesPlayerService = require('./services/player.service');
 
 var _servicesPlayerService2 = _interopRequireDefault(_servicesPlayerService);
@@ -250,15 +275,15 @@ _angular2['default'].module('app', ['ui.router', 'ngCookies']).constant('PARSE',
       'X-Parse-REST-API-Key': 'GcHk8Ed0qlmhgTTqwsxiJVkOrqLotzvjhLVCHmOs'
     }
   }
-}).config(_config2['default']).controller('AddController', _controllersAddController2['default']).controller('ProfileController', _controllersProfileController2['default']).controller('LeadersController', _controllersLeadersController2['default']).controller('LoginController', _controllersLoginController2['default']).controller('ChallengeController', _controllersChallengeController2['default']).service('PlayerService', _servicesPlayerService2['default']);
+}).config(_config2['default']).controller('AddController', _controllersAddController2['default']).controller('ProfileController', _controllersProfileController2['default']).controller('LeadersController', _controllersLeadersController2['default']).controller('LoginController', _controllersLoginController2['default']).controller('ChallengeController', _controllersChallengeController2['default']).controller('ResultsController', _controllersResultsController2['default']).service('PlayerService', _servicesPlayerService2['default']);
 
-},{"./config":1,"./controllers/add.controller":2,"./controllers/challenge.controller":3,"./controllers/leaders.controller":4,"./controllers/login.controller":5,"./controllers/profile.controller":6,"./services/player.service":8,"angular":13,"angular-cookies":10,"angular-ui-router":11}],8:[function(require,module,exports){
+},{"./config":1,"./controllers/add.controller":2,"./controllers/challenge.controller":3,"./controllers/leaders.controller":4,"./controllers/login.controller":5,"./controllers/profile.controller":6,"./controllers/results.controller":7,"./services/player.service":9,"angular":14,"angular-cookies":11,"angular-ui-router":12}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var PlayerService = function PlayerService($http, PARSE) {
+var PlayerService = function PlayerService($http, PARSE, $state) {
 
   var url = PARSE.URL + 'classes/player';
 
@@ -298,12 +323,12 @@ var PlayerService = function PlayerService($http, PARSE) {
   // };
 };
 
-PlayerService.$inject = ['$http', 'PARSE'];
+PlayerService.$inject = ['$http', 'PARSE', '$state'];
 
 exports['default'] = PlayerService;
 module.exports = exports['default'];
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.7
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -626,11 +651,11 @@ angular.module('ngCookies').provider('$$cookieWriter', function $$CookieWriterPr
 
 })(window, window.angular);
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 require('./angular-cookies');
 module.exports = 'ngCookies';
 
-},{"./angular-cookies":9}],11:[function(require,module,exports){
+},{"./angular-cookies":10}],12:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.15
@@ -5001,7 +5026,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.7
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -33906,11 +33931,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":12}],14:[function(require,module,exports){
+},{"./angular":13}],15:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -35460,7 +35485,7 @@ module.exports = angular;
   }
 }.call(this));
 
-},{}]},{},[7])
+},{}]},{},[8])
 
 
 //# sourceMappingURL=main.js.map

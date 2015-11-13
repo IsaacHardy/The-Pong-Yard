@@ -1,6 +1,6 @@
 import _ from 'underscore';
 
-let ChallengeController = function($scope, PlayerService) {
+let ChallengeController = function($scope, PlayerService, $state) {
   $scope.playerOne = [];
   $scope.playerTwo = [];
 
@@ -9,9 +9,7 @@ let ChallengeController = function($scope, PlayerService) {
   });
   
   $scope.selectPlayer = function (item) {
-    let i = _.findWhere($scope.users, { objectId: item.objectId });
-
-    
+    let i = _.findWhere($scope.users, { objectId: item.objectId });    
 
     if ($scope.playerOne[0] !== undefined && $scope.playerTwo[0] === undefined) { 
       $scope.users = _.without($scope.users, i);     
@@ -24,9 +22,13 @@ let ChallengeController = function($scope, PlayerService) {
     }
   };
 
+  $scope.playGame = function () {
+    $state.go('root.results');
+  };
+
 
 };
 
-ChallengeController.$inject = ['$scope', 'PlayerService'];
+ChallengeController.$inject = ['$scope', 'PlayerService', '$state'];
 
 export default ChallengeController;

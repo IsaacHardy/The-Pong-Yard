@@ -9,6 +9,8 @@ import ProfileController from './controllers/profile.controller';
 import LeadersController from './controllers/leaders.controller';
 import LoginController from './controllers/login.controller';
 import ChallengeController from './controllers/challenge.controller';
+import ResultsController from './controllers/results.controller';
+
 
 import PlayerService from './services/player.service';
 
@@ -29,5 +31,6 @@ angular
   .controller('LeadersController', LeadersController)
   .controller('LoginController', LoginController)
   .controller('ChallengeController', ChallengeController)
+  .controller('ResultsController', ResultsController)
   .service('PlayerService', PlayerService)
 ;
