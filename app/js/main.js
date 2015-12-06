@@ -260,8 +260,9 @@ var ResultsController = function ResultsController($scope, $stateParams, PlayerS
 
     PlayerService.update(one).then(function (res) {
       PlayerService.update(two).then(function (res) {
-        $state.go('root.leaderboard');
-        $window.location.reload();
+        $state.go('root.leaderboard').then(function () {
+          $window.location.reload();
+        });
       });
     });
   };

@@ -12,8 +12,10 @@ let ResultsController = function($scope, $stateParams, PlayerService, $rootScope
 
     PlayerService.update(one).then( (res) => {     
       PlayerService.update(two).then( (res) => {
-        $state.go('root.leaderboard');
-        $window.location.reload();
+        $state.go('root.leaderboard').then( () => {
+          $window.location.reload();
+          
+        });
       });
     });
     
