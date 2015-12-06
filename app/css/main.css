@@ -6502,6 +6502,9 @@ input.input-you, input.input-opp {
 input.input-you {
   float: left; }
 
+input:not([type])[readonly] {
+  background: #E84E3C; }
+
 input.input-opp {
   float: right; }
 

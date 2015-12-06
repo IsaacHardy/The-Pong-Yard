@@ -1,6 +1,6 @@
-## Welcome to My Project
+## The Iron Pong
 
-> I am your Readme.md file, you should probably update me.
+The Iron Pong was built using Angularjs. It's purpose was to help members of the Iron Yard keep track of the record from ping pong matches. Parse.com was used as the server-side of data saves.
 
 
 ## Usage

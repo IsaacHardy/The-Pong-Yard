@@ -14,8 +14,8 @@
   <h5>Step 1: Insert score into blank input boxes. </h5>
 
   <form class="results-score" ng-submit="addGame(score, one.first, two.first)">
-    <input class="input-you" placeholder="Your First Name" ng-model="one.first">
-    <input class="input-opp" placeholder="Opponent First Name" ng-model="two.first">
+    <input class="input-you" placeholder="Your First Name" ng-model="one.first" readonly>
+    <input class="input-opp" placeholder="Opponent First Name" ng-model="two.first" readonly>
     <input placeholder="{{one.first}}'s Score" ng-model="score.youScore">
     <input placeholder="{{two.first}}'s Score" ng-model="score.oppScore">
     <h5>Step 2: Click the "Log Game" button when complete.</h5>
