@@ -135,7 +135,7 @@ var HomeController = function HomeController($scope, $rootScope, GameService) {
     $scope.last = _underscore2['default'].sortBy($scope.data, function (game) {
       return game.createdAt;
     });
-    $scope.game = $scope.last[0];
+    $scope.game = $scope.last.reverse()[0];
   });
 };
 
@@ -246,7 +246,7 @@ module.exports = exports['default'];
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var ResultsController = function ResultsController($scope, $stateParams, PlayerService, $rootScope, $state, GameService) {
+var ResultsController = function ResultsController($scope, $stateParams, PlayerService, $rootScope, $state, GameService, $window) {
 
   $scope.one = $rootScope.playerOne[0];
   $scope.two = $rootScope.playerTwo[0];
@@ -261,6 +261,7 @@ var ResultsController = function ResultsController($scope, $stateParams, PlayerS
     PlayerService.update(one).then(function (res) {
       PlayerService.update(two).then(function (res) {
         $state.go('root.leaderboard');
+        $window.location.reload();
       });
     });
   };
@@ -275,6 +276,7 @@ var ResultsController = function ResultsController($scope, $stateParams, PlayerS
     PlayerService.update(two).then(function (res) {
       PlayerService.update(one).then(function (res) {
         $state.go('root.leaderboard');
+        $window.location.reload();
       });
     });
   };
@@ -289,7 +291,7 @@ var ResultsController = function ResultsController($scope, $stateParams, PlayerS
   };
 };
 
-ResultsController.$inject = ['$scope', '$stateParams', 'PlayerService', '$rootScope', '$state', 'GameService'];
+ResultsController.$inject = ['$scope', '$stateParams', 'PlayerService', '$rootScope', '$state', 'GameService', '$window'];
 
 exports['default'] = ResultsController;
 module.exports = exports['default'];

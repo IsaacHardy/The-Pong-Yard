@@ -1,4 +1,4 @@
-let ResultsController = function($scope, $stateParams, PlayerService, $rootScope, $state, GameService) {
+let ResultsController = function($scope, $stateParams, PlayerService, $rootScope, $state, GameService, $window) {
   
   $scope.one = $rootScope.playerOne[0];
   $scope.two = $rootScope.playerTwo[0];
@@ -13,6 +13,7 @@ let ResultsController = function($scope, $stateParams, PlayerService, $rootScope
     PlayerService.update(one).then( (res) => {     
       PlayerService.update(two).then( (res) => {
         $state.go('root.leaderboard');
+        $window.location.reload();
       });
     });
     
@@ -28,6 +29,7 @@ let ResultsController = function($scope, $stateParams, PlayerService, $rootScope
     PlayerService.update(two).then( (res) => {
       PlayerService.update(one).then( (res) => {
         $state.go('root.leaderboard');
+        $window.location.reload();
       });
     });    
   };
@@ -38,10 +40,11 @@ let ResultsController = function($scope, $stateParams, PlayerService, $rootScope
 
     GameService.logGame(obj).then( function(res) {
       $scope.score = {};
+
     });
   };
 };
 
-ResultsController.$inject = ['$scope', '$stateParams', 'PlayerService', '$rootScope', '$state', 'GameService'];
+ResultsController.$inject = ['$scope', '$stateParams', 'PlayerService', '$rootScope', '$state', 'GameService', '$window'];
 
 export default ResultsController;
